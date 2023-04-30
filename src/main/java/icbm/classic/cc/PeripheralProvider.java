@@ -2,9 +2,7 @@ package icbm.classic.cc;
 
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
-import dan200.computercraft.api.peripheral.IPeripheralTile;
 import icbm.classic.ICBMConstants;
-import icbm.classic.api.ICBMClassicAPI;
 import icbm.classic.cc.methods.*;
 import icbm.classic.content.blocks.launcher.base.TileLauncherBase;
 import icbm.classic.content.blocks.launcher.cruise.TileCruiseLauncher;
@@ -27,7 +25,12 @@ public class PeripheralProvider implements IPeripheralProvider {
         .withMethod("getMachineInfo", CommonMethods::getMachineInfo);
 
 
-    private final PeripheralBuilder<TileRadarStation> radarBuilder = machine.copy(ICBMConstants.PREFIX + "radar.station", TileRadarStation.class);
+    private final PeripheralBuilder<TileRadarStation> radarBuilder = machine.copy(ICBMConstants.PREFIX + "radar.station", TileRadarStation.class)
+        .withMethod("getDetectionRange", RadarMethods::getDetectionRange)
+        .withMethod("setDetectionRange", RadarMethods::setDetectionRange)
+        .withMethod("getTriggerRange", RadarMethods::getTriggerRange)
+        .withMethod("setTriggerRange", RadarMethods::setTriggerRange)
+        .withMethod("getContacts", RadarMethods::getContacts);
 
     private final PeripheralBuilder<TileEntity> launcher = machine.copy(ICBMConstants.PREFIX + "launcher", TileEntity.class)
         .withMethod("getMissiles", LauncherMethods::getMissiles)
