@@ -1,0 +1,16 @@
+[
+{
+  "modid": "icbmcc",
+  "name": "ICBM ComputerCraft Addon",
+  "description": "Addon to provide computer craft support",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://legacy.curseforge.com/minecraft/mc-mods/icbm-classic-cc-addon",
+  "updateUrl": "",
+  "authorList": ["DarkGuardsman"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
