@@ -12,9 +12,7 @@ import lombok.NoArgsConstructor;
 import net.minecraft.entity.Entity;
 
 import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.NONE)
@@ -58,10 +56,10 @@ public final class RadarMethods {
             final int count = triggerArea ? tile.getIncomingThreats().size() : tile.getDetectedThreats().size();
 
             // Collect entities
-            final Map<Object, Object> entityTable = new HashMap();
+            final Map<Integer, Object> entityTable = new TreeMap<>(Integer::compareTo);
             for(int i = 0; i < entities.size() && i < limit; i++) {
                 final Entity entity = entities.get(i);
-                final Map<Object, Object> entryTable = new HashMap();
+                final Map<Object, Object> entryTable = new TreeMap<>();
 
                 // Limit information to what a radar IRL can see (position, size, material)
                 entryTable.put("SIZE_H", entity.height);
@@ -71,9 +69,9 @@ public final class RadarMethods {
                 entryTable.put("Z", entity.posZ);
 
                 //add entry
-                entityTable.put(i, entryTable);
+                entityTable.put( i, entryTable);
             }
-            return new Object[] {entityTable, count};
+            return new Object[] {entityTable, entityTable.size(), count};
         });
     }
 }
