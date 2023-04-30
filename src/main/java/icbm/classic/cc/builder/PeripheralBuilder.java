@@ -22,6 +22,13 @@ public class PeripheralBuilder<T extends TileEntity> {
         return this;
     }
 
+
+
+    private PeripheralBuilder<T> withMethods(List<PeripheralMethod<T>> methodsToAdd) {
+        this.methods.addAll(methodsToAdd);
+        return this;
+    }
+
     public PeripheralBuilder<T> withMethod(String type, MethodFuncContext<T> method) {
         methods.add(new PeripheralMethodFunc<T>(type, method));
         return this;
@@ -47,5 +54,13 @@ public class PeripheralBuilder<T extends TileEntity> {
 
     public Peripheral<T> build(T tile, EnumFacing side) {
         return new Peripheral<T>(type, gatherMethodNames(), methods, tile, tile.getPos().offset(side), side);
+    }
+
+    public <X extends T> PeripheralBuilder<X> copy(String type, Class<X> clazz) {
+       final PeripheralBuilder<X> newCopy = new PeripheralBuilder<X>(type);
+       methods.forEach(m -> {
+           newCopy.withMethod((PeripheralMethod<X>) m);
+       });
+       return newCopy;
     }
 }
