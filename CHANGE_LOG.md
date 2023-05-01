@@ -4,6 +4,10 @@ This log contains changes made to the project. Each entry contains changed made 
 
 # Versions
 
+## 1.0.2 - May 1st, 2023
+
+* FIxed: version metadata
+
 ## 1.0.1 - May 1st, 2023
 
 * Fixed: dependencies on CC and ICBM not being set in metadata
