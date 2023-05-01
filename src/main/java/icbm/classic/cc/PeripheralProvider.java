@@ -23,6 +23,7 @@ public class PeripheralProvider implements IPeripheralProvider {
         .withMethod("getEnergy", EnergyMethods::getEnergy)
         .withMethod("getEnergyLimit", EnergyMethods::getEnergyLimit)
         .withMethod("getMachineInfo", CommonMethods::getMachineInfo);
+        //TODO add a way to get mod version so CC scripts can version for changes in commands
 
 
     private final PeripheralBuilder<TileRadarStation> radarBuilder = machine.copy(ICBMConstants.PREFIX + "radar.station", TileRadarStation.class)

@@ -49,7 +49,7 @@ dependencies {
     implementation "org.squiddev:cc-tweaked-1.12.2:1.89.2"
 
     // Mods
-    implementation(fg.deobf('curse.maven:icbmclassic-244451:4512974'))
+    implementation(fg.deobf('curse.maven:icbmclassic-244451:4512974')) //5.2.2
     implementation files('libs/industrialcraft-2-2.8.170-ex112-api.jar')
 
     // https://projectlombok.org/setup/gradle

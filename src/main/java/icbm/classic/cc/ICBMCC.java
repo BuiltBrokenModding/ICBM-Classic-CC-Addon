@@ -14,12 +14,13 @@ import org.apache.logging.log4j.Logger;
  * <p>
  * Orginal author and creator of the mod: Calclavia
  */
-@Mod(modid = ICBMCC.DOMAIN, name = "ICBM-CC-Addon", version = ICBMCC.VERSION)
+@Mod(modid = ICBMCC.DOMAIN, name = "ICBM-CC-Addon", version = ICBMCC.VERSION, dependencies = ICBMCC.DEPS)
 @Mod.EventBusSubscriber
 public class ICBMCC
 {
     public static final String VERSION = "@VERSION@";
     public static final String DOMAIN = "icbmcc";
+    public static final String DEPS = "required-after:icbmclassic@[5.2.2,);required-after:computercraft@[1.19.2,)";
 
     private static final Logger logger = LogManager.getLogger(ICBMConstants.DOMAIN);
 
