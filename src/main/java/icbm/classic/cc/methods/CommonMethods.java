@@ -1,7 +1,7 @@
 package icbm.classic.cc.methods;
 
 import icbm.classic.cc.builder.Peripheral;
-import icbm.classic.prefab.tile.TilePoweredMachine;
+import icbm.classic.lib.data.IMachineInfo;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.minecraft.tileentity.TileEntity;
@@ -24,10 +24,10 @@ public final class CommonMethods {
     public static <T extends TileEntity> Object[] getMachineInfo(Peripheral<T> peripheral) {
         final T tile = peripheral.getTile();
         final Map<Object, Object> table = new HashMap<>();
-        if(tile instanceof TilePoweredMachine) {
-            table.put("ENERGY_COST", ((TilePoweredMachine) tile).getEnergyConsumption());
+        if(tile instanceof IMachineInfo) {
+           ((IMachineInfo) tile).provideInformation(table::put);
         }
-        else if(tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, peripheral.getAccessedSide())) {
+        if(tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, peripheral.getAccessedSide())) {
            final IItemHandler handler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, peripheral.getAccessedSide());
            if(handler != null) {
                table.put("INVENTORY_SIZE", handler.getSlots());
