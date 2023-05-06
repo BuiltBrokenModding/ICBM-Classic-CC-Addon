@@ -1,6 +1,7 @@
 package icbm.classic.cc.builder;
 
 import dan200.computercraft.api.lua.ILuaContext;
+import dan200.computercraft.api.lua.ILuaObject;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
@@ -23,7 +24,7 @@ import java.util.Objects;
  * @param <T>
  */
 @RequiredArgsConstructor
-public class Peripheral<T extends TileEntity> implements IPeripheral {
+public class Peripheral<T> implements IPeripheral, ILuaObject {
 
     /** Unique id for the peripheral */
     @Getter
@@ -60,5 +61,14 @@ public class Peripheral<T extends TileEntity> implements IPeripheral {
         return iPeripheral instanceof Peripheral
             && Objects.equals(((Peripheral<?>) iPeripheral).type, type)
             && ((Peripheral<?>) iPeripheral).tile == tile;
+    }
+
+    @Nullable
+    @Override
+    public Object[] callMethod(@Nonnull ILuaContext context, int method, @Nonnull Object[] args) throws LuaException, InterruptedException {
+        if(method >= 0 && method < methods.size()) {
+            return methods.get(method).invoke(this, null, context, args);
+        }
+        throw new LuaException("Unknown method");
     }
 }

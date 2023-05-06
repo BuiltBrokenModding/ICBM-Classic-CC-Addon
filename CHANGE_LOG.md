@@ -4,9 +4,14 @@ This log contains changes made to the project. Each entry contains changed made 
 
 # Versions
 
+## 1.1.0 - ?
+
+* Added: support for ICBM's IMachineInfo system
+* Added: launcher connector support featuring `getLaunchers: Map<I, Map<String, ?>>`
+
 ## 1.0.2 - May 1st, 2023
 
-* FIxed: version metadata
+* Fixed: version metadata
 
 ## 1.0.1 - May 1st, 2023
 

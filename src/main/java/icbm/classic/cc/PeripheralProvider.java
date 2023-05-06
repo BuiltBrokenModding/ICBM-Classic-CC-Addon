@@ -6,6 +6,7 @@ import icbm.classic.ICBMConstants;
 import icbm.classic.cc.methods.*;
 import icbm.classic.content.blocks.launcher.base.TileLauncherBase;
 import icbm.classic.content.blocks.launcher.cruise.TileCruiseLauncher;
+import icbm.classic.content.blocks.launcher.network.ILauncherComponent;
 import icbm.classic.content.blocks.radarstation.TileRadarStation;
 import icbm.classic.cc.builder.PeripheralBuilder;
 import net.minecraft.tileentity.TileEntity;
@@ -17,7 +18,7 @@ import javax.annotation.Nonnull;
 
 public class PeripheralProvider implements IPeripheralProvider {
 
-    private final PeripheralBuilder<TileEntity> machine = new PeripheralBuilder<TileEntity>(ICBMConstants.PREFIX + "machine")
+    public static final PeripheralBuilder<TileEntity> machine = new PeripheralBuilder<TileEntity>(ICBMConstants.PREFIX + "machine")
         // Common Machine
         .withMethod("getEnergyData", EnergyMethods::getEnergyData)
         .withMethod("getEnergy", EnergyMethods::getEnergy)
@@ -26,32 +27,35 @@ public class PeripheralProvider implements IPeripheralProvider {
         //TODO add a way to get mod version so CC scripts can version for changes in commands
 
 
-    private final PeripheralBuilder<TileRadarStation> radarBuilder = machine.copy(ICBMConstants.PREFIX + "radar.station", TileRadarStation.class)
+    public static final PeripheralBuilder<TileRadarStation> radarBuilder = machine.copy(ICBMConstants.PREFIX + "radar.station", TileRadarStation.class)
         .withMethod("getDetectionRange", RadarMethods::getDetectionRange)
         .withMethod("setDetectionRange", RadarMethods::setDetectionRange)
         .withMethod("getTriggerRange", RadarMethods::getTriggerRange)
         .withMethod("setTriggerRange", RadarMethods::setTriggerRange)
         .withMethod("getContacts", RadarMethods::getContacts);
 
-    private final PeripheralBuilder<TileEntity> launcher = machine.copy(ICBMConstants.PREFIX + "launcher", TileEntity.class)
+    public static final PeripheralBuilder<TileEntity> launcher = machine.copy(ICBMConstants.PREFIX + "launcher", TileEntity.class)
         .withMethod("getMissiles", LauncherMethods::getMissiles)
         .withMethod("launch", LauncherMethods::launchMissile)
         .withMethod("getInaccuracy", LauncherMethods::getInaccuracy)
         .withMethod("getStatus", LauncherMethods::getStatus)
         .withMethod("preCheckLaunch", LauncherMethods::preLaunchCheck);
 
-    private final PeripheralBuilder<TileCruiseLauncher> cruiseLauncher = launcher.copy(ICBMConstants.PREFIX + "launcher.cruise", TileCruiseLauncher.class)
+    public static final PeripheralBuilder<TileCruiseLauncher> cruiseLauncher = launcher.copy(ICBMConstants.PREFIX + "launcher.cruise", TileCruiseLauncher.class)
         .withMethod("getTarget", CruiseLauncherMethods::getTarget)
         .withMethod("setTarget", CruiseLauncherMethods::setTarget)
         .withMethod("isAimed", CruiseLauncherMethods::isAimed)
         .withMethod("getAimCurrent", CruiseLauncherMethods::getCurrentAim)
         .withMethod("getAimTarget", CruiseLauncherMethods::getCurrentAim);
 
-    private final PeripheralBuilder<TileLauncherBase> baseLauncher = launcher.copy(ICBMConstants.PREFIX + "launcher.pad", TileLauncherBase.class)
+    public static final PeripheralBuilder<TileLauncherBase> baseLauncher = launcher.copy(ICBMConstants.PREFIX + "launcher.pad", TileLauncherBase.class)
         .withMethod("getLockHeight", BaseLauncherMethods::getLockHeight)
         .withMethod("setLockHeight", BaseLauncherMethods::setLockHeight)
         .withMethod("getFiringDelay", BaseLauncherMethods::getFiringDelay)
         .withMethod("setFiringDelay", BaseLauncherMethods::setFiringDelay);
+
+    public static final PeripheralBuilder<TileEntity> connectors = machine.copy(ICBMConstants.PREFIX + "launcher.connector", TileEntity.class)
+        .withMethod("getLaunchers", ConnectorMethods::getLaunchers);
 
     @Override
     public IPeripheral getPeripheral(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull EnumFacing side) {
@@ -65,6 +69,9 @@ public class PeripheralProvider implements IPeripheralProvider {
         }
         else if(tile instanceof TileCruiseLauncher) {
             return cruiseLauncher.build((TileCruiseLauncher) tile, connectedSide);
+        }
+        else if(tile instanceof ILauncherComponent) {
+            return connectors.build(tile, connectedSide);
         }
         return null;
     }

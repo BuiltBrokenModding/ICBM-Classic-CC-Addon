@@ -3,6 +3,7 @@ package icbm.classic.cc.builder;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,10 @@ public class PeripheralBuilder<T extends TileEntity> {
 
     public Peripheral<T> build(T tile, EnumFacing side) {
         return new Peripheral<T>(type, gatherMethodNames(), methods, tile, tile.getPos().offset(side), side);
+    }
+
+    public Peripheral<T> build(T tile, BlockPos computerPos) {
+        return new Peripheral<T>(type, gatherMethodNames(), methods, tile, computerPos, null);
     }
 
     public <X extends T> PeripheralBuilder<X> copy(String type, Class<X> clazz) {
