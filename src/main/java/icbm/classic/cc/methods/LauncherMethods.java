@@ -108,7 +108,7 @@ public final class LauncherMethods {
         final double x = MethodHelpers.getNumeric(table, "x", "Error: failed to get x value...");
         final double y = MethodHelpers.getNumeric(table, "y", "Error: failed to get y value...");
         final double z = MethodHelpers.getNumeric(table, "z", "Error: failed to get z value...");
-        final int delay = (int)Math.floor(MethodHelpers.getNumeric(table, "delay", "Error: failed to get delay value..."));
+        final int delay = (int)Math.floor(MethodHelpers.getNumeric(table, "delay", "Error: failed to get delay value...", 0));
         return new BasicTargetData(x, y, z).withFiringDelay(delay);
     }
 }
