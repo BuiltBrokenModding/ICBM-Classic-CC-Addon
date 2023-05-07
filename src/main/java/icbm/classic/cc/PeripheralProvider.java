@@ -55,7 +55,8 @@ public class PeripheralProvider implements IPeripheralProvider {
         .withMethod("setFiringDelay", BaseLauncherMethods::setFiringDelay);
 
     public static final PeripheralBuilder<TileEntity> connectors = machine.copy(ICBMConstants.PREFIX + "launcher.connector", TileEntity.class)
-        .withMethod("getLaunchers", ConnectorMethods::getLaunchers);
+        .withMethod("getLaunchers", ConnectorMethods::getLaunchers)
+        .withMethod("launch", ConnectorMethods::launch);
 
     @Override
     public IPeripheral getPeripheral(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull EnumFacing side) {

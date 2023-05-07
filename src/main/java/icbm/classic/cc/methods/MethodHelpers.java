@@ -8,6 +8,13 @@ import java.util.Map;
 
 @NoArgsConstructor(access = AccessLevel.NONE)
 public final class MethodHelpers {
+
+    public static double getNumeric(Map<?, ?> table, String key, String errorPrefix, double defaultValue) throws LuaException {
+        if(!table.containsKey(key)) {
+            return defaultValue;
+        }
+        return getNumeric(table, key, errorPrefix);
+    }
     public static double getNumeric(Map<?, ?> table, String key, String errorPrefix) throws LuaException {
 
         if(!table.containsKey(key)) {
