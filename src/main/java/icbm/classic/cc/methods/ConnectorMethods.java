@@ -2,17 +2,14 @@ package icbm.classic.cc.methods;
 
 import dan200.computercraft.api.lua.ArgumentHelper;
 import dan200.computercraft.api.lua.LuaException;
-import icbm.classic.api.launcher.IActionStatus;
-import icbm.classic.api.launcher.IMissileLauncher;
-import icbm.classic.api.missiles.cause.IMissileCause;
+import icbm.classic.api.actions.cause.IActionCause;
+import icbm.classic.api.actions.status.IActionStatus;
 import icbm.classic.api.missiles.parts.IMissileTarget;
 import icbm.classic.cc.PeripheralProvider;
 import icbm.classic.cc.builder.Peripheral;
-import icbm.classic.cc.builder.PeripheralBuilder;
 import icbm.classic.content.blocks.launcher.network.ILauncherComponent;
 import icbm.classic.content.blocks.launcher.network.LauncherEntry;
 import icbm.classic.content.blocks.launcher.network.LauncherNode;
-import icbm.classic.lib.capability.launcher.data.LauncherStatus;
 import net.minecraft.tileentity.TileEntity;
 
 import javax.annotation.Nonnull;
@@ -28,7 +25,7 @@ public class ConnectorMethods {
                 return new Object[] {null, null, "No Network"};
             }
 
-            final List<LauncherEntry> launchers =  ((ILauncherComponent) tile).getLaunchers();
+            final List<LauncherEntry> launchers =  ((ILauncherComponent) tile).getNetworkNode().getNetwork().getLaunchers();
 
             final HashMap<Object, Object> table = new HashMap<>();
             for(int i = 0; i < launchers.size(); i++) {
@@ -76,12 +73,12 @@ public class ConnectorMethods {
                 return new Object[] {null, null, new Object[] {false, false, "icbmclassic:error.group.empty", "Firing Safety; No missiles in group"}}; //TODO move to ICBM
             }
 
-            final IMissileCause cause = LauncherMethods.createLaunchCause(peripheral);
+            final IActionCause cause = LauncherMethods.createLaunchCause(peripheral);
 
             final Map<Object, Object> results = new TreeMap();
-            for(int i = 0; i < count; i++) { //TODO move to launcher network
+            for(int i = 0; i < count; i++) {
                 final LauncherEntry launcher = launchers.get(i);
-                final IActionStatus status = launcher.getLauncher().launch(targetData, cause, simulate); // TODO output status to users
+                final IActionStatus status = launcher.getLauncher().launch(targetData, cause, simulate);
 
                 final Map<Object, Object> resultEntry = new TreeMap();
                 resultEntry.put("RESULT", LauncherMethods.convertStatus(status));

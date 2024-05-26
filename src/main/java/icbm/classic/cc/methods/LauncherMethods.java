@@ -5,14 +5,15 @@ import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import icbm.classic.api.ICBMClassicAPI;
+import icbm.classic.api.actions.cause.IActionCause;
+import icbm.classic.api.actions.status.ActionStatusTypes;
+import icbm.classic.api.actions.status.IActionStatus;
 import icbm.classic.api.caps.IMissileHolder;
-import icbm.classic.api.launcher.IActionStatus;
 import icbm.classic.api.launcher.IMissileLauncher;
 import icbm.classic.api.missiles.ICapabilityMissileStack;
-import icbm.classic.api.missiles.cause.IMissileCause;
 import icbm.classic.api.missiles.parts.IMissileTarget;
 import icbm.classic.cc.builder.Peripheral;
-import icbm.classic.content.missile.logic.source.cause.BlockCause;
+import icbm.classic.content.missile.logic.source.cause.CausedByBlock;
 import icbm.classic.content.missile.logic.targeting.BasicTargetData;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -61,7 +62,7 @@ public final class LauncherMethods {
         final IMissileLauncher launcher = getLauncher(peripheral);
 
         return context.executeMainThreadTask(() -> {
-            final IMissileCause cause = createLaunchCause(peripheral);
+            final IActionCause cause = createLaunchCause(peripheral);
             final IActionStatus status = launcher.launch(targetData, cause, simulate);
             return convertStatus(status);
         });
@@ -90,18 +91,22 @@ public final class LauncherMethods {
     public static <T extends TileEntity> Object[]  preLaunchCheck(@Nonnull Peripheral<T> peripheral, @Nonnull Object[] objects) throws LuaException {
         final Map<?, ?> table = ArgumentHelper.getTable(objects, 0);
         final IMissileTarget targetData = getTarget(table);
-        final IMissileCause cause = createLaunchCause(peripheral);
+        final IActionCause cause = createLaunchCause(peripheral);
         final IMissileLauncher launcher = getLauncher(peripheral);
         return convertStatus(launcher.preCheckLaunch(targetData, cause));
     }
 
-    public static <T extends TileEntity> IMissileCause createLaunchCause(@Nonnull Peripheral<T> peripheral) {
+    public static <T extends TileEntity> IActionCause createLaunchCause(@Nonnull Peripheral<T> peripheral) {
         final BlockPos sourceBlock = peripheral.getComputerPos();
-        return new BlockCause(peripheral.getTile().getWorld(), sourceBlock, peripheral.getTile().getWorld().getBlockState(sourceBlock));
+        return new CausedByBlock(peripheral.getTile().getWorld(), sourceBlock, peripheral.getTile().getWorld().getBlockState(sourceBlock));
     }
 
     public static Object[] convertStatus(IActionStatus status) {
-        return new Object[]{status.isError(), status.shouldBlockInteraction(), status.getRegistryName().toString(), status.message().getFormattedText()};
+        return new Object[]{
+            status.getTypeTags().contains(ActionStatusTypes.ERROR),
+            status.getTypeTags().contains(ActionStatusTypes.BLOCKING),
+            status.getRegistryKey().toString(), status.message().getFormattedText()
+        };
     }
 
     public static IMissileTarget getTarget(Map<?, ?> table) throws LuaException {
