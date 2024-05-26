@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 public class ICBMCC
 {
     public static final String DOMAIN = "icbmcc";
-    public static final String DEPS = "required-after:icbmclassic@[5.2.2,);required-after:computercraft@[1.19.2,)";
+    public static final String DEPS = "required-after:icbmclassic@[6.0.1,);required-after:computercraft@[1.19.2,)";
 
     private static final Logger logger = LogManager.getLogger(ICBMConstants.DOMAIN);
 

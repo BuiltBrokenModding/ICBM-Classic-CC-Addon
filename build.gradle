@@ -16,7 +16,7 @@ java {
     }
 }
 
-version = "${version_major}.${version_minor}.${version_revis}"
+version = "${version_major}.${version_minor}.${version_revise}"
 archivesBaseName = "ICBM-classic-cc-addon-${version_mc}"
 
 fancyGradle {
@@ -50,7 +50,6 @@ dependencies {
 
     // Mods
     implementation(fg.deobf('curse.maven:icbm-244451:5372969')) //6.0.1
-    implementation files('libs/industrialcraft-2-2.8.170-ex112-api.jar')
 
     // https://projectlombok.org/setup/gradle
     compileOnly 'org.projectlombok:lombok:1.18.24'
