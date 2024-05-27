@@ -4,6 +4,10 @@ This log contains changes made to the project. Each entry contains changed made 
 
 # Versions
 
+## 1.2.0 - May 26th, 2024
+
+* Updated: for ICBM v6.0.1
+
 ## 1.1.0 - May 6th, 2023
 
 * Added: support for ICBM's IMachineInfo system
