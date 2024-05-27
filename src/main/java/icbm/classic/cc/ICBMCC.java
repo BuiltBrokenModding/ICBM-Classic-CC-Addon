@@ -2,6 +2,8 @@ package icbm.classic.cc;
 
 import dan200.computercraft.api.ComputerCraftAPI;
 import icbm.classic.ICBMConstants;
+import icbm.classic.oc.DriverLauncher;
+import li.cil.oc.api.Driver;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import org.apache.logging.log4j.LogManager;
@@ -28,6 +30,8 @@ public class ICBMCC
     public void init(FMLInitializationEvent event)
     {
         ComputerCraftAPI.registerPeripheralProvider(new PeripheralProvider());
+
+        Driver.add(new DriverLauncher());
     }
 
     public static Logger logger()

@@ -55,7 +55,6 @@ public final class LauncherMethods {
     }
 
     public static <T extends TileEntity> Object[] launchMissile(@Nonnull Peripheral<T> peripheral, @Nonnull IComputerAccess computer, @Nonnull ILuaContext context, @Nonnull Object[] args) throws LuaException, InterruptedException {
-        //TODO once ported over to addon, add a delay into the launcher network to force player to do launcherNetwork.fire(launchers) vs one at a time
         final Map<?, ?> table = ArgumentHelper.getTable(args, 0);
         final boolean simulate = ArgumentHelper.getBoolean(args, 1);
         final IMissileTarget targetData = getTarget(table);

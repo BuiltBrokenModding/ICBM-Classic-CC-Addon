@@ -48,8 +48,14 @@ dependencies {
     //  https://github.com/cc-tweaked/CC-Tweaked/tree/v1.12.2-1.89.2
     implementation "org.squiddev:cc-tweaked-1.12.2:1.89.2"
 
+    // Open Computers
+    //  https://github.com/MightyPirates/OpenComputers
+    //  https://github.com/MightyPirates/OpenComputers/tree/master-MC1.12/src/main/java/li/cil/oc/api
+    //implementation "li.cil.oc:OpenComputers:MC1.7.10-1.5.+:api"
+
     // Mods
     implementation(fg.deobf('curse.maven:icbm-244451:5372969')) //6.0.1
+    implementation(fg.deobf('curse.maven:opencomputers-223008:5274236')) //1.8.5+179e1c3
 
     // https://projectlombok.org/setup/gradle
     compileOnly 'org.projectlombok:lombok:1.18.24'
@@ -184,6 +190,7 @@ repositories {
         name 'SquidDev'
         url 'https://squiddev.cc/maven/'
     }
+    maven { url = "https://maven.cil.li/" }
     maven {
         url "https://cursemaven.com"
         content {
